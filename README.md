@@ -1,4 +1,15 @@
-# inditex-test-code
+# Tabla de contenido 
+1. [Enunciado](#enunciado)
+2. [Stack tecnológico](#stack)
+3. [API](#api)
+4. [Arquitectura propuesta](#arquitectura-propuesta)
+5. [Arrancar el proyecto](#arrancar-el-proyecto)
+6. [Testing](#testing)
+   1. [Test unitarios]()
+   2. [Test de integración]()
+
+
+# Enunciado
 
 En la base de datos de comercio electrónico de la compañía disponemos de la tabla PRICES que refleja el precio final (pvp) y la tarifa que aplica a un producto de una cadena entre unas fechas determinadas. A continuación se muestra un ejemplo de la tabla con los campos relevantes:
 
@@ -50,3 +61,24 @@ Se valorará:
 Diseño y construcción del servicio.
 Calidad de Código.
 Resultados correctos en los test.
+
+# Stack
+
+- Java 17
+- Spring boot 3
+- H2
+- Flyway
+- Docker
+
+# API
+
+Pese que es un proyecto muy pequeño de se ha seguido la metodología de trabajo API fist, documentando el api antes de comenzar el desarrollo.
+Para esta documentación se ha usado el estandard OpenAPI y se puede encontrar en la ruta /etc/oas/oas.yml
+
+
+
+# Arquitectura propuesta
+
+# Arrancar el proyecto
+
+# Testing
