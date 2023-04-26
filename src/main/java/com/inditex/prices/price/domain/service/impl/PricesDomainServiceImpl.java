@@ -21,7 +21,7 @@ public class PricesDomainServiceImpl implements PricesDomainService {
     @Override
     public Optional<ProductPriceModel> findProductPriceByFilters(PriceQueryModel priceQuery) {
         checkQuery(priceQuery);
-        return pricesRepository.findPriceByFilters(priceQuery);
+        return pricesRepository.findPricesByFilters(priceQuery).stream().findFirst();
     }
 
     private void checkQuery(PriceQueryModel priceQueryModel) {

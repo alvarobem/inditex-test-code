@@ -40,13 +40,13 @@ public class PricesDomainServiceImplTest {
         final var priceQueryModel = Instancio.create(PriceQueryModel.class);
         final var productPriceModel = Instancio.create(ProductPriceModel.class);
 
-        when(pricesRepository.findPriceByFilters(priceQueryModel)).thenReturn(Optional.of(productPriceModel));
+        when(pricesRepository.findPricesByFilters(priceQueryModel)).thenReturn(List.of(productPriceModel));
 
         //when
         final var result = pricesDomainService.findProductPriceByFilters(priceQueryModel);
 
         //then
-        verify(pricesRepository).findPriceByFilters(priceQueryModel);
+        verify(pricesRepository).findPricesByFilters(priceQueryModel);
         verifyNoMoreInteractions(pricesRepository);
 
         assertThat(result).isPresent();

@@ -15,7 +15,8 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,20 +45,19 @@ public class PricesRepositoryImplTest {
         final var productPriceEntity = Instancio.create(ProductPriceEntity.class);
         final var productPriceModel = Instancio.create(ProductPriceModel.class);
 
-        when(jpaRepository.findOne(any(Specification.class))).thenReturn(Optional.of(productPriceEntity));
+        when(jpaRepository.findAll(any(Specification.class))).thenReturn(List.of(productPriceEntity));
         when(mapper.toModel(productPriceEntity)).thenReturn(productPriceModel);
 
 
         //when
-        final var result= pricesRepository.findPriceByFilters(queryModel);
+        final var result= pricesRepository.findPricesByFilters(queryModel);
 
         //then
-        verify(jpaRepository).findOne(any(Specification.class));
+        verify(jpaRepository).findAll(any(Specification.class));
         verify(mapper).toModel(productPriceEntity);
         verifyNoMoreInteractions(jpaRepository, mapper);
 
-        assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo(productPriceModel);
+        assertThat(result).contains(productPriceModel);
 
     }
 
@@ -67,17 +67,17 @@ public class PricesRepositoryImplTest {
         final var queryModel = Instancio.create(PriceQueryModel.class);
         final var productPriceModel = Instancio.create(ProductPriceModel.class);
 
-        when(jpaRepository.findOne(any(Specification.class))).thenReturn(Optional.empty());
+        when(jpaRepository.findAll(any(Specification.class))).thenReturn(Collections.emptyList());
 
         //when
-        final var result= pricesRepository.findPriceByFilters(queryModel);
+        final var result= pricesRepository.findPricesByFilters(queryModel);
 
         //then
-        verify(jpaRepository).findOne(any(Specification.class));
+        verify(jpaRepository).findAll(any(Specification.class));
         verifyNoMoreInteractions(jpaRepository);
         verifyNoInteractions(mapper);
 
-        assertThat(result.isPresent()).isFalse();
+        assertThat(result).isEmpty();
 
     }
 

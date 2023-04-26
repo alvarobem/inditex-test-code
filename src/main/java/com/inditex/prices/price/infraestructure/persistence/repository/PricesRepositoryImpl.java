@@ -11,7 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -24,10 +25,12 @@ public class PricesRepositoryImpl implements PricesRepository {
     private final PriceSpecs priceSpecs;
 
     @Override
-    public Optional<ProductPriceModel> findPriceByFilters(PriceQueryModel priceQuery) {
+    public List<ProductPriceModel> findPricesByFilters(PriceQueryModel priceQuery) {
         var query = buildQuery(priceQuery);
         query  = PricesJpaRepository.Specs.orderByPriority(query);
-        return jpaRepository.findOne(query).map(mapper::toModel);
+        return jpaRepository.findAll(query).stream()
+                .map(mapper::toModel)
+                .collect(Collectors.toList());
     }
 
     private Specification<ProductPriceEntity> buildQuery(PriceQueryModel priceQuery){

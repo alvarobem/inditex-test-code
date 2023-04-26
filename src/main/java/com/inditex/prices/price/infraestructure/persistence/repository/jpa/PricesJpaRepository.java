@@ -35,7 +35,7 @@ public interface PricesJpaRepository extends JpaRepository<ProductPriceEntity, L
 
         static Specification<ProductPriceEntity> orderByPriority(Specification<ProductPriceEntity> spec){
             return ((root, query, criteriaBuilder) -> {
-                query.orderBy(criteriaBuilder.asc(root.get("priority")));
+                query.orderBy(criteriaBuilder.desc(root.get("priority")));
                 return spec.toPredicate(root, query, criteriaBuilder);
             });
         }
