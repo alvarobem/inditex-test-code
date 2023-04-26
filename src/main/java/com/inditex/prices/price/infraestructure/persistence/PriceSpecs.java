@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 @Component
 public class PriceSpecs {
 
-    public Specification<ProductPriceEntity> startDateGreaterThan(LocalDateTime date){
+    public Specification<ProductPriceEntity> startDateLowerThan(LocalDateTime date){
 
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), date));
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("startDate"), date));
     }
 
-    public Specification<ProductPriceEntity> endDateLowerThan(LocalDateTime date){
+    public Specification<ProductPriceEntity> endDateGreaterThan(LocalDateTime date){
 
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), date));
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("endDate"), date));
     }
 
     public Specification<ProductPriceEntity> brandIdEqualTo(Long brandId){
@@ -30,7 +30,7 @@ public class PriceSpecs {
 
     public Specification<ProductPriceEntity> orderByPriority(Specification<ProductPriceEntity> spec){
         return ((root, query, criteriaBuilder) -> {
-            query.orderBy(criteriaBuilder.asc(root.get("priority")));
+            query.orderBy(criteriaBuilder.desc(root.get("priority")));
             return spec.toPredicate(root, query, criteriaBuilder);
         });
     }

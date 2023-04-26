@@ -33,8 +33,8 @@ public class PricesRepositoryImpl implements PricesRepository {
     private Specification<ProductPriceEntity> buildQuery(PriceQueryModel priceQuery){
 
         return priceSpecs.productEqualTo(priceQuery.productId())
-                .and(priceSpecs.startDateGreaterThan(priceQuery.applicationDate()))
-                .and(priceSpecs.endDateLowerThan(priceQuery.applicationDate()))
+                .and(priceSpecs.startDateLowerThan(priceQuery.applicationDate()))
+                .and(priceSpecs.endDateGreaterThan(priceQuery.applicationDate()))
                 .and(priceSpecs.brandIdEqualTo(priceQuery.brandId()));
     }
 
