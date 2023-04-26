@@ -1,5 +1,8 @@
 package com.inditex.prices.shared.exceptions;
 
+import lombok.Getter;
+
+@Getter
 public class InditexCustomException extends RuntimeException{
 
     private final String messageKey;
