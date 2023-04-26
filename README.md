@@ -5,8 +5,8 @@
 4. [Arquitectura propuesta](#arquitectura-propuesta)
 5. [Arrancar el proyecto](#arrancar-el-proyecto)
 6. [Testing](#testing)
-   1. [Test unitarios]()
-   2. [Test de integración]()
+   1. [Test unitarios](#test-unitarios)
+   2. [Test de integración](#test-de-integración)
 
 
 # Enunciado
@@ -26,11 +26,17 @@ PRICES
 Campos:
 
 **BRAND_ID**: foreign key de la cadena del grupo (1 = ZARA).
+
 **START_DATE** , END_DATE: rango de fechas en el que aplica el precio tarifa indicado.
+
 **PRICE_LIST**: Identificador de la tarifa de precios aplicable.
+
 **PRODUCT_ID**: Identificador código de producto.
+
 **PRIORITY**: Desambiguador de aplicación de precios. Si dos tarifas coinciden en un rago de fechas se aplica la de mayor prioridad (mayor valor numérico).
+
 **PRICE**: precio final de venta.
+
 **CURR**: iso de la moneda.
 
 
@@ -66,6 +72,10 @@ Resultados correctos en los test.
 
 - Java 17
 - Spring boot 3
+- OpenAPI Specification
+- Newman
+- JUnit
+- Mockito
 - H2
 - Flyway
 - Docker
@@ -79,6 +89,57 @@ Para esta documentación se ha usado el estandard OpenAPI y se puede encontrar e
 
 # Arquitectura propuesta
 
+Pese a que el codigo que se necesita es bastante sencillo, y sabiendo que para una aplicaión tan sencilla no sería necesario una arquitectura tan 
+grande, he optado por usar una arquitectura hexagonal ya que lo he planteado como si de una aplicación real se tratara ya que en este
+paradigma este tipo de arquitecturas ofrecen muchas ventajas.
+
+Podemos distinguir 3 grandes capas
+
+**infraestructure**: Capa donde se encuentra todo lo relacionado la infraestructura y framework. (endpoints, base de datos, configuración de la
+capa de dominio para aislarlo del framework)
+
+**application**; Capa donde se estarían los diferentes casos de uso de nuestra aplicación y gestion de la transaccionalidad. 
+En este caso de uso tan sencillo lo único que hace es hacer de "proxy" a al siguiente capa adaptando los DTOs. 
+
+**domain**: Capa más interna de la aplicación donde encontraremos las interfaces de los repositorios, el modelo de datos y 
+la lógica de negocio (dentro de lo que he llamado DomainService). Se puede observar que he decidido aislar del framework esta capa
+(algo que en bastantes casos no se hace pero es más purista). Se ha movido la creación de los beans necesarios a la capa de infraestructura.
+
+
+De esta forma podemos separar en diferentes capas las diferentes responsabilidades teniendo en el punto central nuestro negocio 
+de forma aislada a tecnologias y frameworks consiguiendo una aplicacion más robusta y cumpliedo principios SOLID como el 
+Open-close y el Single Responsability.
+
+
 # Arrancar el proyecto
 
+El proyecto puede ser arrancado de diferentes formas
+
+### Maven 
+
+Se puede arrancar el proyecto con el siguiente comando: 
+
+````
+
+
 # Testing
+
+En el apartado de testing he realizado dos tipos de test
+
+## Test unitarios
+
+Se han desarrollado los test unitarios usando JUnit y Mockito ademas de Insatancio para la generacion de POJOs con datos aleatoreos.
+
+## Test de integración
+
+Los test de integración los he realizado con newman de tal forma que podría integrarse en un pipeline (Jenkins, Bamboo, Gitlab CI...)
+de forma muy sencilla y rápida. 
+
+En estos test se encuentran los test solicitados en el enunciado. Además de estos test, he incuido alguno más para asegurar que la
+aplicación funciona correctamente. 
+
+La colección postman que contienen estos test puede encontrarse en etc/newman y pueden ser ejecutados con el siguiente comando 
+(el proyecto debe estar arrancado [ver como arrancar la aplicación](#arrancar-el-proyecto))
+
+``newman run etc/newman/Inditex\ code\ challenge.postman_collection.json``
+
