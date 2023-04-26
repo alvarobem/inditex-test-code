@@ -1,0 +1,1 @@
+CREATE SCHEMA inditex_code_challenge
