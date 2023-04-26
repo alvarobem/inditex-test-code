@@ -18,7 +18,7 @@ public class I18nConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.US);
+        slr.setDefaultLocale(Locale.getDefault());
         slr.setLocaleAttributeName("session.current.locale");
         slr.setTimeZoneAttributeName("session.current.timezone");
         return slr;
@@ -27,7 +27,7 @@ public class I18nConfig implements WebMvcConfigurer {
     @Bean("messageSource")
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("language/messages");
+        messageSource.setBasenames("lang/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
