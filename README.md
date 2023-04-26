@@ -7,6 +7,7 @@
 6. [Testing](#testing)
    1. [Test unitarios](#test-unitarios)
    2. [Test de integración](#test-de-integración)
+7. [Versionado de la Base de Datos](#versionado-base-de-datos)
 
 
 # Enunciado
@@ -66,7 +67,7 @@ Se valorará:
 
 Diseño y construcción del servicio.
 Calidad de Código.
-Resultados correctos en los test.
+Resultados correctos en los tests.
 
 # Stack
 
@@ -89,7 +90,7 @@ Para esta documentación se ha usado el estandard OpenAPI y se puede encontrar e
 
 # Arquitectura propuesta
 
-Pese a que el codigo que se necesita es bastante sencillo, y sabiendo que para una aplicaión tan sencilla no sería necesario una arquitectura tan 
+Pese a que el codigo que se necesita es bastante sencillo, y sabiendo que para una aplicación tan sencilla no sería necesario una arquitectura tan 
 grande, he optado por usar una arquitectura hexagonal ya que lo he planteado como si de una aplicación real se tratara ya que en este
 paradigma este tipo de arquitecturas ofrecen muchas ventajas.
 
@@ -98,7 +99,7 @@ Podemos distinguir 3 grandes capas
 **infraestructure**: Capa donde se encuentra todo lo relacionado la infraestructura y framework. (endpoints, base de datos, configuración de la
 capa de dominio para aislarlo del framework)
 
-**application**; Capa donde se estarían los diferentes casos de uso de nuestra aplicación y gestion de la transaccionalidad. 
+**application**; Capa donde se estarían los diferentes casos de uso de nuestra aplicación y gestión de la transacionalidad. 
 En este caso de uso tan sencillo lo único que hace es hacer de "proxy" a al siguiente capa adaptando los DTOs. 
 
 **domain**: Capa más interna de la aplicación donde encontraremos las interfaces de los repositorios, el modelo de datos y 
@@ -107,7 +108,7 @@ la lógica de negocio (dentro de lo que he llamado DomainService). Se puede obse
 
 
 De esta forma podemos separar en diferentes capas las diferentes responsabilidades teniendo en el punto central nuestro negocio 
-de forma aislada a tecnologias y frameworks consiguiendo una aplicacion más robusta y cumpliedo principios SOLID como el 
+de forma aislada a tecnologías y frameworks consiguiendo una aplicación más robusta y cumpliendo principios SOLID como el 
 Open-close y el Single Responsability.
 
 
@@ -119,27 +120,53 @@ El proyecto puede ser arrancado de diferentes formas
 
 Se puede arrancar el proyecto con el siguiente comando: 
 
-````
+```
+mvn spring-boot:run
+```
+
+### Docker
+
+Construir la imagen con el siguiente comando: 
+
+```
+docker build -f etc/docker/Dockerfile . -t inditex-challenge
+```
+
+Ejecutar la aplicación:
+
+```
+docker run -p 8080:8080 inditex-challenge
+```
 
 
 # Testing
 
 En el apartado de testing he realizado dos tipos de test
-
+ 
 ## Test unitarios
 
-Se han desarrollado los test unitarios usando JUnit y Mockito ademas de Insatancio para la generacion de POJOs con datos aleatoreos.
+Se han desarrollado los tests unitarios usando JUnit y Mockito además de Insatancio para la generación de POJOs con datos aleatorios.
 
 ## Test de integración
 
-Los test de integración los he realizado con newman de tal forma que podría integrarse en un pipeline (Jenkins, Bamboo, Gitlab CI...)
+Los tests de integración los he realizado con newman de tal forma que podría integrarse en un pipeline (Jenkins, Bamboo, Gitlab CI...)
 de forma muy sencilla y rápida. 
 
-En estos test se encuentran los test solicitados en el enunciado. Además de estos test, he incuido alguno más para asegurar que la
-aplicación funciona correctamente. 
+En estos tests se encuentran los tests solicitados en el enunciado. Además de estos tests, he incluido alguno más para asegurar que la
+aplicación funciona correctamente.
 
-La colección postman que contienen estos test puede encontrarse en etc/newman y pueden ser ejecutados con el siguiente comando 
+La colección postman que contienen estos tests puede encontrarse en etc/newman y pueden ser ejecutados con el siguiente comando 
 (el proyecto debe estar arrancado [ver como arrancar la aplicación](#arrancar-el-proyecto))
 
-``newman run etc/newman/Inditex\ code\ challenge.postman_collection.json``
+```
+newman run etc/newman/Inditex\ code\ challenge.postman_collection.json
+```
 
+# Versionado Base de Datos
+
+Igualmente he planteado el uso de Flyway para el versionado de los esquemas de base de datos. 
+Al ser un proyecto muy pequeño simplemente he separado en dos versiones. La primera de ellas solo crea
+un esquema dentro de la base de datos. El segundo por su parte se encarga de crear la tabla 
+necesaria de precios. 
+
+Estas migraciones se pueden encontrar en /src/main/resources/db.migration
