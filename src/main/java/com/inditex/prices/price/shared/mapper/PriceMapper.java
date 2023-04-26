@@ -8,6 +8,7 @@ import com.inditex.prices.price.infraestructure.api.dto.PriceQueryRQDTO;
 import com.inditex.prices.price.infraestructure.api.dto.ProductPriceRSDTO;
 import com.inditex.prices.price.infraestructure.persistence.entity.ProductPriceEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
@@ -22,5 +23,6 @@ public interface PriceMapper {
 
     ProductPriceODTO toODTO(ProductPriceModel productPrice);
 
+    @Mapping(source = "price", target = "pvp")
     ProductPriceModel toModel(ProductPriceEntity productPrice);
 }

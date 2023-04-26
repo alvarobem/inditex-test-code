@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public record ProductPriceRSDTO(@NotNull LocalDateTime startDate,
                                 @NotNull LocalDateTime endDate,
-                                @NotNull Integer finalPrice,
+                                @NotNull Double pvp,
                                 @NotNull Integer priceList,
                                 @NotNull Long productId,
                                 @NotNull Long brandId) {
