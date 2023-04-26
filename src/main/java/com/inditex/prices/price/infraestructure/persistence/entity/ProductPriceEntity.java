@@ -25,7 +25,7 @@ public class ProductPriceEntity{
 
     private LocalDateTime endDate;
 
-    private Integer price;
+    private Double price;
 
     private Integer priceList;
 
