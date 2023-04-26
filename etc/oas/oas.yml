@@ -6,7 +6,7 @@ info:
 
   contact:
     email: alvaroberrocal12@gmail.com
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: https://localhost:8080/api/
 tags:
@@ -63,7 +63,7 @@ components:
         - price_list
         - start_date
         - end_date
-        - price
+        - pvp
       type: object
       properties:
         product_id:
@@ -86,8 +86,8 @@ components:
           type: string
           format: date-time
           example: 2023-05-21T17:32:28Z
-        final_rice:
+        pvp:
           type: integer
           format: int32
-          example: 1
+          example: 10.95
 
