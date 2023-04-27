@@ -8,6 +8,7 @@
    1. [Test unitarios](#test-unitarios)
    2. [Test de integración](#test-de-integración)
 7. [Versionado de la Base de Datos](#versionado-base-de-datos)
+8. [Internalización](#internalización)
 
 
 # Enunciado
@@ -152,8 +153,8 @@ Se han desarrollado los tests unitarios usando JUnit y Mockito además de Insata
 Los tests de integración los he realizado con newman de tal forma que podría integrarse en un pipeline (Jenkins, Bamboo, Gitlab CI...)
 de forma muy sencilla y rápida. 
 
-En estos tests se encuentran los tests solicitados en el enunciado. Además de estos tests, he incluido alguno más para asegurar que la
-aplicación funciona correctamente.
+En estos tests se encuentran los tests solicitados en el enunciado garantizando asi que la aplicación funciona correctamente
+y aegurando la integración entre los diferentes componentes (p.e.: BD).
 
 La colección postman que contienen estos tests puede encontrarse en etc/newman y pueden ser ejecutados con el siguiente comando 
 (el proyecto debe estar arrancado [ver como arrancar la aplicación](#arrancar-el-proyecto))
@@ -170,3 +171,9 @@ un esquema dentro de la base de datos. El segundo por su parte se encarga de cre
 necesaria de precios. 
 
 Estas migraciones se pueden encontrar en /src/main/resources/db.migration
+
+
+# Internalización
+
+He preparado la aplicación para que devuelva los errores en español o inglés in función del locale por lo que
+en función de la configuración podría contestar en uno de los dos idiomas.
